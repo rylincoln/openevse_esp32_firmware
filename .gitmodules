@@ -1,6 +1,6 @@
 [submodule "gui-nightshift"]
 	path = gui-nightshift
-	url = https://github.com/OpenEVSE/openevse-gui-nightshift
+	url = https://github.com/rylincoln/openevse-gui-nightshift
 	branch = main
 [submodule "migrator"]
 	path = migrator
