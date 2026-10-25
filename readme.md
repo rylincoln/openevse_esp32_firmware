@@ -1,5 +1,10 @@
 # OpenEVSE WiFi for ESP32
 
+> **A personal fork** of [OpenEVSE/openevse_esp32_firmware](https://github.com/OpenEVSE/openevse_esp32_firmware).
+> Upstream `master` is merged in from time to time, and the fork runs on my own
+> charger (`openevse_wifi_tft_v1`). For official releases, documentation and
+> issues, use the parent repo. [What this fork changes](#what-this-fork-changes).
+
 > This release recommends OpenEVSE firmware [9.0.0](https://github.com/OpenEVSE/open_evse/releases) (minimum [7.1.3](https://github.com/OpenEVSE/open_evse/releases)); features including Solar Divert and push-button menus may not behave as expected on older firmware.
 
 - *For the older WiFi V2.x ESP8266 version (pre June 2020), see the [v2 firmware repository](https://github.com/openevse/ESP8266_WiFi_v2.x/)*
@@ -15,6 +20,21 @@
 *Screenshots of every screen — [auto-generated](docs/developer/gui-development.md#screenshots) and always current — illustrate the [user guide](docs/user/index.md).*
 
 The WiFi gateway uses an **ESP32** which communicates with the OpenEVSE controller via serial RAPI API. The web UI is served directly from the ESP32 web server and can be controlled via a connected device on the local network.
+
+## What this fork changes
+
+- **Web UI**: the `gui-nightshift` submodule points at
+  [rylincoln/openevse-gui-nightshift](https://github.com/rylincoln/openevse-gui-nightshift),
+  my fork of the UI ([what it changes](https://github.com/rylincoln/openevse-gui-nightshift#what-this-fork-changes)),
+  and `src/web_static/` is regenerated from it.
+- **IPv6 DNS crash fix**: ArduinoMongoose is pinned to
+  [rylincoln/ArduinoMongoose](https://github.com/rylincoln/ArduinoMongoose)
+  `v1.2.0-ry.1`, which is 1.2.0 plus a fix that skips IPv6 DNS resolvers. With
+  1.2.0, a router that advertises an IPv6 DNS server (RDNSS) sends the DNS
+  client into endless recursion and the module crashes on boot. The pin comes
+  out once upstream fixes it.
+
+Everything else is upstream.
 
 
 ***
