@@ -111,10 +111,12 @@ jobs:
       # release job that needs them. Same shape as SIGN_ENABLED below.
       CRASH_ARCHIVE_ENABLED: ${{ secrets.CRASH_ELF_ROLE_ARN != '' && secrets.CRASH_BUCKET != '' && (vars.CRASH_AWS_REGION != '' || secrets.CRASH_AWS_REGION != '') }}
 
-      # Environments whose Arduino core (core-3.x / pioarduino / IDF5) provides
-      # the signed-update verifier. Signed OTA is only enforced on these; add
-      # future core-3.x envs here. Older-core (4MB) envs cannot verify and are
-      # left unsigned.
+      # Environments whose Arduino core (core-3.x / espressif32 8.0.0 / IDF5)
+      # provides the signed-update verifier. Signed OTA is only enforced on these;
+      # add future core-3.x envs here. Older-core (4MB) envs cannot verify and are
+      # left unsigned. The S3 envs (openevse_s3_lcd*) are core-3.x but stay out
+      # until signed delivery works on 16MB boards (docs/signed_ota.md): enforcing
+      # it there now would block their OTA updates.
       SIGNED_OTA_ENVS: '["openevse_wifi_v1_16mb"]'
       # 'true' only when the image-signing key is configured. Keeps signed OTA
       # dormant (builds unchanged, unsigned) until the OTA_SIGNING_KEY secret is
@@ -140,11 +142,15 @@ jobs:
           - olimex_esp32-poe-iso
           - heltec_esp32-wifi-lora-v2
           - wt32-eth01
+          - lilygo-t-eth-lite-rtl8201
           - esp32-c3-devkitc-02
           - openevse_wifi_tft_v1
           - openevse_wifi_tft_v1_dev
-          # core-3.x (pioarduino / IDF5) — 16MB+ boards
+          # core-3.x (espressif32 8.0.0 / IDF5) — 16MB+ boards
           - openevse_wifi_v1_16mb
+          # core-3.x — ESP32-S3 (docs/hardware/esp32-s3-lcd.md)
+          - openevse_s3_lcd
+          - openevse_s3_lcd_dev
           - native_openevse
 
     steps:
@@ -163,7 +169,9 @@ jobs:
     - name: Cache PlatformIO
       uses: actions/cache@v6
       with:
-        path: ~/.platformio
+        path: |
+          ~/.platformio
+          ~/.platformio-core3
         # Include the Python version: the ESP-IDF venv under here is built
         # for whichever interpreter created it, so a 3.15 cache must not be
         # restored into the 3.14 build.
@@ -182,7 +190,7 @@ jobs:
     - name: Install PlatformIO
       # Pinned: PlatformIO Core 6.2.0 bumped its bundled build engine to
       # SCons 4.11.1 (tool-scons@4.41101.0), which fails every core-3.x
-      # (pioarduino, arduino+espidf hybrid) env at the final link step with
+      # (arduino+espidf hybrid) env at the final link step with
       # `ModuleNotFoundError: No module named 'SCons.Tool.FortranCommon'`
       # (openevse_wifi_v1_16mb, openevse_wifi_tft_v1[_dev]). 6.1.19 is the
       # last release still on SCons 4.8.1 (tool-scons@4.40801.0), which
@@ -211,7 +219,8 @@ jobs:
       # this step on pio's exit code, not tee's.
       run: |
         set -o pipefail
-        pio run -e ${{ matrix.env }} 2>&1 | tee pio-build-${{ matrix.env }}.log
+        export PLATFORMIO_BIN="$(command -v pio)"
+        scripts/pio run -e ${{ matrix.env }} 2>&1 | tee pio-build-${{ matrix.env }}.log
 
     - name: Check flash usage
       # Runs whether or not the build above succeeded: PlatformIO's own size
@@ -331,7 +340,7 @@ jobs:
       # Best-effort: the base branch may not have a build with flash size
       # artifacts yet (e.g. right after this feature is added), so a miss
       # here just means the report shows sizes with no "change vs base".
-      uses: dawidd6/action-download-artifact@v27
+      uses: dawidd6/action-download-artifact@v28
       continue-on-error: true
       with:
         workflow: build.yaml
@@ -426,7 +435,7 @@ jobs:
 
     - name: Get the bootloader and partition files
       run: |
-        for i in openevse_wifi_tft_v1:16mb openevse_wifi_v1:4mb openevse_wifi_v1_16mb:v1_16mb; do
+        for i in openevse_wifi_tft_v1:16mb openevse_wifi_v1:4mb openevse_wifi_v1_16mb:v1_16mb openevse_s3_lcd:s3_lcd; do
           env=$(cut -f1 -d: <<< $i)
           name=$(cut -f2 -d: <<< $i)
           mv artifacts/$env.bin/bootloader.bin bootloader_$name.bin

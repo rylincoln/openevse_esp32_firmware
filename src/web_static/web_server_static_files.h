@@ -1,13 +1,13 @@
 #include "web_server.apple_touch_icon_png.h"
 #include "web_server.assets_charts_BYLOAqTL_js_gz.h"
 #include "web_server.assets_charts_CnsZ1jie_css_gz.h"
-#include "web_server.assets_en_Ccrrew6h_js_gz.h"
-#include "web_server.assets_es_BTMhFryh_js_gz.h"
-#include "web_server.assets_fr_DSAtgFf1_js_gz.h"
-#include "web_server.assets_hu_Cm9OsqzW_js_gz.h"
-#include "web_server.assets_index_BAXAttHh_css_gz.h"
-#include "web_server.assets_index_DeGUun0D_js_gz.h"
-#include "web_server.assets_vendor_D4rlaeZR_js_gz.h"
+#include "web_server.assets_en_CDEqU4C9_js_gz.h"
+#include "web_server.assets_es_CIhVp1xD_js_gz.h"
+#include "web_server.assets_fr_BQuKMCoV_js_gz.h"
+#include "web_server.assets_hu_5V0Iulge_js_gz.h"
+#include "web_server.assets_index_BTzcwa_Q_js_gz.h"
+#include "web_server.assets_index_biWf_cx2_css_gz.h"
+#include "web_server.assets_vendor_C_Z8fZU__js_gz.h"
 #include "web_server.favicon_ico.h"
 #include "web_server.index_html_gz.h"
 #include "web_server.manifest_webmanifest.h"
@@ -19,13 +19,13 @@ StaticFile web_server_static_files[] = {
   { "/apple-touch-icon.png", CONTENT_APPLE_TOUCH_ICON_PNG, sizeof(CONTENT_APPLE_TOUCH_ICON_PNG) - 1, _CONTENT_TYPE_PNG, CONTENT_APPLE_TOUCH_ICON_PNG_ETAG, NULL },
   { "/assets/charts-BYLOAqTL.js", CONTENT_CHARTS_BYLOAQTL_JS_GZ, sizeof(CONTENT_CHARTS_BYLOAQTL_JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_CHARTS_BYLOAQTL_JS_GZ_ETAG, "gzip" },
   { "/assets/charts-CnsZ1jie.css", CONTENT_CHARTS_CNSZ1JIE_CSS_GZ, sizeof(CONTENT_CHARTS_CNSZ1JIE_CSS_GZ) - 1, _CONTENT_TYPE_CSS, CONTENT_CHARTS_CNSZ1JIE_CSS_GZ_ETAG, "gzip" },
-  { "/assets/en-Ccrrew6h.js", CONTENT_EN_CCRREW6H_JS_GZ, sizeof(CONTENT_EN_CCRREW6H_JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_EN_CCRREW6H_JS_GZ_ETAG, "gzip" },
-  { "/assets/es-BTMhFryh.js", CONTENT_ES_BTMHFRYH_JS_GZ, sizeof(CONTENT_ES_BTMHFRYH_JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_ES_BTMHFRYH_JS_GZ_ETAG, "gzip" },
-  { "/assets/fr-DSAtgFf1.js", CONTENT_FR_DSATGFF1_JS_GZ, sizeof(CONTENT_FR_DSATGFF1_JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_FR_DSATGFF1_JS_GZ_ETAG, "gzip" },
-  { "/assets/hu-Cm9OsqzW.js", CONTENT_HU_CM9OSQZW_JS_GZ, sizeof(CONTENT_HU_CM9OSQZW_JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_HU_CM9OSQZW_JS_GZ_ETAG, "gzip" },
-  { "/assets/index-BAXAttHh.css", CONTENT_INDEX_BAXATTHH_CSS_GZ, sizeof(CONTENT_INDEX_BAXATTHH_CSS_GZ) - 1, _CONTENT_TYPE_CSS, CONTENT_INDEX_BAXATTHH_CSS_GZ_ETAG, "gzip" },
-  { "/assets/index-DeGUun0D.js", CONTENT_INDEX_DEGUUN0D_JS_GZ, sizeof(CONTENT_INDEX_DEGUUN0D_JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_INDEX_DEGUUN0D_JS_GZ_ETAG, "gzip" },
-  { "/assets/vendor-D4rlaeZR.js", CONTENT_VENDOR_D4RLAEZR_JS_GZ, sizeof(CONTENT_VENDOR_D4RLAEZR_JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_VENDOR_D4RLAEZR_JS_GZ_ETAG, "gzip" },
+  { "/assets/en-CDEqU4C9.js", CONTENT_EN_CDEQU4C9_JS_GZ, sizeof(CONTENT_EN_CDEQU4C9_JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_EN_CDEQU4C9_JS_GZ_ETAG, "gzip" },
+  { "/assets/es-CIhVp1xD.js", CONTENT_ES_CIHVP1XD_JS_GZ, sizeof(CONTENT_ES_CIHVP1XD_JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_ES_CIHVP1XD_JS_GZ_ETAG, "gzip" },
+  { "/assets/fr-BQuKMCoV.js", CONTENT_FR_BQUKMCOV_JS_GZ, sizeof(CONTENT_FR_BQUKMCOV_JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_FR_BQUKMCOV_JS_GZ_ETAG, "gzip" },
+  { "/assets/hu-5V0Iulge.js", CONTENT_HU_5V0IULGE_JS_GZ, sizeof(CONTENT_HU_5V0IULGE_JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_HU_5V0IULGE_JS_GZ_ETAG, "gzip" },
+  { "/assets/index-BTzcwa_Q.js", CONTENT_INDEX_BTZCWA_Q_JS_GZ, sizeof(CONTENT_INDEX_BTZCWA_Q_JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_INDEX_BTZCWA_Q_JS_GZ_ETAG, "gzip" },
+  { "/assets/index-biWf_cx2.css", CONTENT_INDEX_BIWF_CX2_CSS_GZ, sizeof(CONTENT_INDEX_BIWF_CX2_CSS_GZ) - 1, _CONTENT_TYPE_CSS, CONTENT_INDEX_BIWF_CX2_CSS_GZ_ETAG, "gzip" },
+  { "/assets/vendor-C_Z8fZU_.js", CONTENT_VENDOR_C_Z8FZU__JS_GZ, sizeof(CONTENT_VENDOR_C_Z8FZU__JS_GZ) - 1, _CONTENT_TYPE_JS, CONTENT_VENDOR_C_Z8FZU__JS_GZ_ETAG, "gzip" },
   { "/favicon.ico", CONTENT_FAVICON_ICO, sizeof(CONTENT_FAVICON_ICO) - 1, _CONTENT_TYPE_ICO, CONTENT_FAVICON_ICO_ETAG, NULL },
   { "/index.html", CONTENT_INDEX_HTML_GZ, sizeof(CONTENT_INDEX_HTML_GZ) - 1, _CONTENT_TYPE_HTML, CONTENT_INDEX_HTML_GZ_ETAG, "gzip" },
   { "/manifest.webmanifest", CONTENT_MANIFEST_WEBMANIFEST, sizeof(CONTENT_MANIFEST_WEBMANIFEST) - 1, _CONTENT_TYPE_MANIFEST, CONTENT_MANIFEST_WEBMANIFEST_ETAG, NULL },

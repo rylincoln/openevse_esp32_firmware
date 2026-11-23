@@ -3,16 +3,16 @@
 # (hybrid) environments.
 #
 # SEEDED FROM:
-#   ~/.platformio/packages/framework-arduinoespressif32-libs/esp32/sdkconfig
-#   package esp32-core-3.3.11-libs (arduino-esp32 3.3.11)
-#   (ESP-IDF 5.5.5, platform-espressif32 55.03.311)
+#   framework-arduinoespressif32-esp32-libs/sdkconfig, arduino-esp32 3.3.11
+#   (ESP-IDF 5.5.5), as shipped by the pioarduino platform this file was first
+#   seeded from.
 #
-# This is the same file pioarduino's own write_sdkconfig_file() copies for the
-# prebuilt path (espidf.py:712); copying it verbatim is what makes the hybrid
-# build bit-compatible with the prebuilt Arduino libraries. The Arduino core
-# hard-fails at CMake time without it (it requires CONFIG_FREERTOS_HZ=1000,
-# while bare IDF defaults to 100), so this file is a hard requirement, not a
-# tuning knob.
+# NOT YET RE-SEEDED: the espressif32 8.0.0 platform installs the 3.3.12 libs
+# (ESP-IDF 5.5.5 too), whose sdkconfig differs from this seed in about 70 keys.
+# The hybrid build is green with this seed, so re-seeding is a follow-up, not a
+# blocker. The Arduino core hard-fails at CMake time without a seed (it requires
+# CONFIG_FREERTOS_HZ=1000, while bare IDF defaults to 100), so this file is a
+# hard requirement, not a tuning knob.
 #
 # CHANGED VS THE SEED: nothing inline. The only deltas are appended at the end
 # of this file, under the "PROJECT OVERRIDES" banner — keep it that way so a
@@ -3848,3 +3848,24 @@ CONFIG_ESP_WIFI_DYNAMIC_TX_BUFFER_NUM=16
 # the ESPHome-proven mechanism). Guarded at runtime by whoever calls it; no
 # behavior change for normal operation.
 CONFIG_SPI_FLASH_DANGEROUS_WRITE_ALLOWED=y
+
+# PPP: the seed enables lwIP PPP for Arduino's PPP (cellular modem) library,
+# which this firmware never uses. lwIP's init.c calls ppp_init() whenever it
+# is compiled in, so the whole stack (LCP/IPCP/PAP/VJ, ~17KB) was linked
+# regardless (openevse_wifi_v1_16mb firmware.bin: 2,194,768 -> 2,170,080
+# bytes with this off). Arduino's PPP.cpp is guarded by
+# CONFIG_LWIP_PPP_SUPPORT, so it compiles to nothing with this off. esp_modem (pulled in unconditionally by
+# arduino-esp32's idf_component.yml) `select`s LWIP_PPP_SUPPORT from
+# ESP_MODEM_USE_PPP_MODE, so that has to go too or the select silently
+# re-enables PPP; esp_modem supports AT-command-only mode without it.
+CONFIG_ESP_MODEM_USE_PPP_MODE=n
+CONFIG_LWIP_PPP_SUPPORT=n
+
+# C++ exceptions off, matching [env]'s -fno-exceptions. With this =y (seed)
+# IDF compiles its C++ components with -fexceptions, and esp_modem (which uses
+# try/catch when this is =y) then fails once our -fno-exceptions reaches
+# it. With =n IDF builds everything with -fno-exceptions and esp_modem's
+# exception_stub.hpp compiles its TRY_CATCH blocks as plain code. That lets
+# the hybrid envs drop their `-fexceptions` / empty `build_unflags`, which
+# only existed to paper over that mismatch.
+CONFIG_COMPILER_CXX_EXCEPTIONS=n

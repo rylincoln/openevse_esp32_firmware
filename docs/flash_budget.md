@@ -1,9 +1,11 @@
 # Flash budget — `openevse_wifi_v1` and the other 4MB boards
 
-`platformio.ini` currently defines 24 environments in total: 4 are
+The PlatformIO config (`platformio.ini` and the `platformio_native.ini` and
+`platformio_community.ini` files it loads) currently defines 28 environments
+in total: 4 are
 `native_*` host builds (`native_test`, `native_openevse`,
 `native_openevse_lvgl`, `native_simulator`) with no flash partition at all,
-and of the remaining 20 ESP32 target environments, 17 build against the 4MB
+and of the remaining 24 ESP32 target environments, 17 build against the 4MB
 `min_spiffs.csv`/`min_spiffs_debug.csv` layout, whose app partition is
 **1,966,080 bytes**. That image has been running within a few KB of the
 limit, and in early 2026 it crossed it: CI failed `openevse_wifi_v1` with
@@ -123,9 +125,9 @@ keeps it automatically — there is nothing to remember.
 In rough order of value per unit of pain:
 
 1. **Split `ENABLE_DEBUG` out of `openevse_wifi_v1`** (~10.8KB) — the biggest
-   single lever, at the cost of field diagnostics on `Serial1`. An
-   `openevse_wifi_v1_dev` env could keep debug for developers, as other boards
-   already do.
+   single lever, at the cost of field diagnostics on `Serial1`. A new
+   `openevse_wifi_v1_dev` env (none exists today) could keep debug for
+   developers, as other boards already do.
 2. **Brotli instead of gzip** for the JS/CSS assets (~245KB of the image).
    Typically 15–20% better than gzip, so plausibly 30KB+ — but it needs a
    `Content-Encoding: br` path in the web server and a build-pipeline change.

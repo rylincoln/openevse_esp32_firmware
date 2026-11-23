@@ -29,8 +29,8 @@ The WiFi gateway uses an **ESP32** which communicates with the OpenEVSE controll
   and `src/web_static/` is regenerated from it.
 - **IPv6 DNS crash fix**: ArduinoMongoose is pinned to
   [rylincoln/ArduinoMongoose](https://github.com/rylincoln/ArduinoMongoose)
-  `v1.2.0-ry.1`, which is 1.2.0 plus a fix that skips IPv6 DNS resolvers. With
-  1.2.0, a router that advertises an IPv6 DNS server (RDNSS) sends the DNS
+  `v1.2.1-ry.1`, which is 1.2.1 plus a fix that skips IPv6 DNS resolvers. Without
+  it, a router that advertises an IPv6 DNS server (RDNSS) sends the DNS
   client into endless recursion and the module crashes on boot. The pin comes
   out once upstream fixes it.
 
